@@ -1,5 +1,5 @@
-# TIM
-This repository contains the code for TIM: Boosting Temporal Link Prediction via Temporal Impact Modeling.
+# NMD
+This repository contains the code for NMD: Disentangling Node Metric Factor For Temporal Link Prediction.
 
 ## Dataset
 * [UCI](http://konect.uni-koblenz.de/networks/opsahl-ucsocial): uc_irvine. Download this file to raw_data/
