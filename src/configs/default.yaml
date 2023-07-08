@@ -1,0 +1,104 @@
+class_weights: [0.1, 0.9]
+use_2_hot_node_feats: False
+use_1_hot_node_feats: True
+save_node_embeddings: False
+
+bitcoinalpha_args:
+  folder: ../raw_data/bitcoin
+  edges_file: soc-sign-bitcoinalpha.csv
+  aggr_time: 1200000 #three weeks in seconds: 1200000 (24*3600*15=1296000)
+  feats_per_node: 3
+
+bitcoinotc_args:
+  folder: ../raw_data/bitcoin
+  edges_file: soc-sign-bitcoinotc.csv
+  aggr_time: 1200000 #three weeks in seconds: 1200000
+  feats_per_node: 3
+
+uc_irc_args:
+  folder: ../raw_data/
+  tar_file: opsahl-ucsocial.tar.bz2
+  edges_file: opsahl-ucsocial/out.opsahl-ucsocial
+  aggr_time: 190080 #216000 #172800, 86400 smaller numbers yields days with no edges
+
+aut_sys_args:
+  folder: ../raw_data/
+  tar_file: as-733.tar.gz
+  aggr_time: 1 #number of days per time step (window size)
+  steps_accounted: 100 #only first 100 steps
+
+dblp_args:
+  folder: ../preprocess/data/dblp/
+  graph_file: 36-core_graph.bin
+  aggr_time: 1 #number of days per time step (window size)
+  steps_accounted: 100 #only first 100 steps
+  use_1_hot_node_feats: False
+
+aps_args:
+  folder: ../preprocess/data/aps/
+  graph_file: 32-core_graph.bin
+  aggr_time: 1 #number of days per time step (window size)
+  steps_accounted: 100 #only first 100 steps
+  use_1_hot_node_feats: False
+
+use_cuda: True
+use_logfile: False
+task: link_pred
+
+train_proportion: 0.7 # with train_proportion: 0.715 we have the 70/30% of actual splits on the 50 timesteps
+dev_proportion: 0.1
+
+num_epochs: 50 #number of passes though the data
+steps_accum_gradients: 1
+learning_rate: 0.005
+negative_mult_training: 100
+negative_mult_test: 100
+smart_neg_sampling: True
+seed: 1234
+target_measure: MAP # measure to define the best epoch F1, Precision, Recall, MRR, MAP, Loss
+target_class: 1 # Target class to get the measure to define the best epoch (all, 0, 1)
+
+eval_after_epochs: -1
+adj_mat_time_window: 1  # Time window to create the adj matrix for each timestep. Use None to use all the history (from 0 to t)
+
+num_hist_steps: 10 # number of previous steps used for prediction
+cls_feats: 128 # Hidden size of the classifier
+
+data_loading_params:
+  batch_size: 1
+  num_workers: 8
+
+ddne_parameters:
+  feats_per_node: 128
+  # enc_dims: [512, 128]
+  enc_dims: [128, 32]
+  alpha: 2.0
+  beta: 0.2
+  
+d2v_parameters:
+  feats_per_node: 128
+  struc_dims: [512, 128]
+  temp_dims: [128, 128]
+
+stgsn_parameters:
+  feats_per_node: 128
+  enc_dims: [256, 128]
+
+egcn_parameters:
+  layer_1_feats: 128
+  layer_2_feats: 128
+  # k_top_grcu: 200
+  # num_layers: 2
+
+
+gcn_parameters:
+  num_layers: 2
+  layer_1_feats: 128
+  layer_2_feats: 128
+  lstm_l1_layers: 1
+  lstm_l1_feats: 128 # only used with sp_lstm_B_trainer
+  lstm_l2_layers: 1 # only used with both sp_lstm_A_trainer and sp_lstm_B_trainer
+  lstm_l2_feats: 128 # only used with both sp_lstm_A_trainer and sp_lstm_B_trainer
+
+comments:
+  - comments
